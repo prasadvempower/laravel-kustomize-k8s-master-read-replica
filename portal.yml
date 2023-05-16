@@ -9,12 +9,14 @@ services:
       - '443:443'
     environment:
       # Nginx, PHPs and FPM Environments
-      - SSH_KEY= ${SSH_KEY}
-      - GIT_REPO= ${GIT_REPO}
-      - GIT_EMAIL= ${GIT_EMAIL}
-      - GIT_NAME= ${GIT_NAME}
-      - GIT_USE_SSH= ${GIT_USE_SSH}
-      - GIT_BRANCH= ${GIT_BRANCH}
+      - SSH_KEY=${SSH_KEY}
+      - GIT_REPO=${GIT_REPO}
+      - GIT_PERSONAL_TOKEN=${GIT_PERSONAL_TOKEN}
+      - GIT_USERNAME=${GIT_USERNAME}
+      - GIT_EMAIL=${GIT_EMAIL}
+      - GIT_NAME=${GIT_NAME}
+      - GIT_USE_SSH=${GIT_USE_SSH}
+      - GIT_BRANCH=${GIT_BRANCH}
       - WEBROOT=${WEBROOT}
       - OPcache=${OPcache}
       - ERRORS=${ERRORS}
