@@ -29,6 +29,11 @@ To simply run the docker-compose:
 sudo docker-compose -f portal.yml up -d
 sudo docker-compose -f db.yml up -d
 ```
+###  
+To check laravel page:
+```
+localhost:80
+```
 To dynamically pull code from git when starting:
 ```
 docker run -d -e 'GIT_EMAIL=email_address' -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GIT_REPO=github.com/project' -e 'GIT_PERSONAL_TOKEN=<long_token_string_here>' prasadvempower/nginx-php-fpm-laravel:latest
