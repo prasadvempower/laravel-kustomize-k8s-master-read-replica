@@ -24,9 +24,10 @@ To pull from docker hub:
 docker pull prasadvempower/nginx-php-fpm-laravel:latest
 ```
 ### Running
-To simply run the container:
+To simply run the docker-compose:
 ```
-sudo docker run -d prasadvempower/nginx-php-fpm-laravel
+sudo docker-compose -f portal.yml up -d
+sudo docker-compose -f db.yml up -d
 ```
 To dynamically pull code from git when starting:
 ```
