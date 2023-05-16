@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  myapp:
+  portal:
     image: ${PORTAL_IMAGE_VERSION}
     restart: always
     ports:
@@ -11,7 +11,6 @@ services:
       # Nginx, PHPs and FPM Environments
       - SSH_KEY=${SSH_KEY}
       - GIT_REPO=${GIT_REPO}
-      - GIT_PERSONAL_TOKEN=${GIT_PERSONAL_TOKEN}
       - GIT_USERNAME=${GIT_USERNAME}
       - GIT_EMAIL=${GIT_EMAIL}
       - GIT_NAME=${GIT_NAME}
@@ -24,6 +23,7 @@ services:
       - PHP_POST_MAX_SIZE=${PHP_POST_MAX_SIZE}
       - PHP_UPLOAD_MAX_FILESIZE=${PHP_UPLOAD_MAX_FILESIZE}
       - PHP_ERRORS_STDERR=${PHP_ERRORS_STDERR}
+      - SKIP_PHPMIGRATE=${SKIP_PHPMIGRATE}
 
       # Application Environment
       - DB_HOST=${DB_HOST}
@@ -86,8 +86,6 @@ services:
       meethour.io:
         aliases:
           - ${APP_HOST}
-      
-
   # Custom network so all services can communicate using a FQDN
 networks:
     meethour.io:

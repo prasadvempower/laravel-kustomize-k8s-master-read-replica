@@ -41,3 +41,4 @@ The following flags are a list of all the currently supported options that can b
 | SKIP_CHOWN              | Set to 1 to avoid running chown -Rf on /var/www/html                                                           |
 | SKIP_CHMOD              | Set to 1 to avoid running chmod -Rf 750 on `SCRIPTS_DIR`                                                       |
 | SKIP_COMPOSER           | Set to 1 to avoid installing composer                                                                          |
+| SKIP_PHPMIGRATE           | Set to 1 to avoid running PHP Artisan Migrate   
