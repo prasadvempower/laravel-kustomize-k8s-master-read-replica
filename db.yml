@@ -16,6 +16,8 @@ services:
             - ${DB_PORT_EXTERNAL}:${DB_PORT_INTERNAL}
         expose:
             - ${DB_PORT_EXTERNAL}
+        volumes:
+            - ~./docker-mysql:/mysql
         networks:
             meethour.io:
                 aliases:
@@ -30,7 +32,7 @@ services:
         networks:
              meethour.io:
                 aliases:
-                    - ${DB_HOST}
+                    - ${ADMINIER_HOST}
 
 # Custom network so all services can communicate using a FQDN
 networks:

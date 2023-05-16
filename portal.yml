@@ -85,7 +85,8 @@ services:
     networks:
       meethour.io:
         aliases:
-          - ${DB_HOST}
+          - ${APP_HOST}
+      
 
   # Custom network so all services can communicate using a FQDN
 networks:

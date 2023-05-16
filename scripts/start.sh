@@ -235,3 +235,8 @@ fi
 # Start supervisord and services
 exec /usr/bin/supervisord -n -c /etc/supervisord.conf
 
+# PHP Artisan migrate command for laravel as an addon
+exec php artisan migrate
+
+
+
