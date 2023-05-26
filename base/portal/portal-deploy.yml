@@ -1,0 +1,368 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portal
+  namespace: meethour
+  labels:
+    app: portal
+spec:
+  selector:
+    matchLabels:
+      app: portal
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: portal
+    spec:
+      containers:
+        - name: portal
+          image: prasadvempower/nginx-php-fpm-laravel:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+          envFrom:
+            - configMapRef:
+                name: portal-configmap
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
+#          livenessProbe:
+#            tcpSocket:
+#              port: 80
+#            initialDelaySeconds: 60
+#            timeoutSeconds: 60
+#            successThreshold: 1
+#            failureThreshold: 60
+#            periodSeconds: 80
+#          readinessProbe:
+#            httpGet:
+#              path: /_status/healthz
+#              port: 80
+#            initialDelaySeconds: 60
+#            timeoutSeconds: 30
+#            successThreshold: 1
+#            failureThreshold: 30
+#            periodSeconds: 80
+          env:
+            - name: SSH_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: portal-secret
+                  key: SSH_KEY
+            - name: GIT_REPO
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key: GIT_REPO
+            - name: GIT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key: GIT_USERNAME
+            - name: GIT_EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key: GIT_EMAIL
+            - name: GIT_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key: GIT_NAME    
+            - name: GIT_USE_SSH
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key: GIT_USE_SSH
+            - name: GIT_BRANCH
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key: GIT_BRANCH
+            - name: WEBROOT
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key: WEBROOT
+            - name: OPcache
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key: OPcache
+            - name: ERRORS
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key: ERRORS
+            - name: PHP_MEM_LIMIT
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key: PHP_MEM_LIMIT
+            - name: PHP_POST_MAX_SIZE
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key: PHP_POST_MAX_SIZE
+            - name: PHP_UPLOAD_MAX_FILESIZE
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key: PHP_UPLOAD_MAX_FILESIZE
+            - name: PHP_ERRORS_STDERR
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key: PHP_ERRORS_STDERR
+            - name: SKIP_PHPMIGRATE
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  SKIP_PHPMIGRATE
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  DB_PORT_INTERNAL
+            - name: DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  DB_USERNAME
+            - name: DB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  DB_DATABASE
+            - name: DB_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  DB_PASSWORD
+            - name: APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  APP_NAME
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  APP_ENV
+            - name: APP_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  APP_KEY
+            - name: APP_DEBUG
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  APP_DEBUG
+            - name: APP_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  APP_URL
+            - name: LOG_CHANNEL
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  LOG_CHANNEL
+            - name: LOG_DEPRECATIONS_CHANNEL
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  LOG_DEPRECATIONS_CHANNEL
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  LOG_LEVEL
+            - name: BROADCAST_DRIVER
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  BROADCAST_DRIVER           
+            - name: CACHE_DRIVER
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  CACHE_DRIVER           
+            - name: FILESYSTEM_DISK
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  FILESYSTEM_DISK           
+            - name: QUEUE_CONNECTION
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  QUEUE_CONNECTION           
+            - name: SESSION_DRIVER
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  SESSION_DRIVER           
+            - name: SESSION_LIFETIME
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  SESSION_LIFETIME           
+            - name: MEMCACHED_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  MEMCACHED_HOST           
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  REDIS_HOST           
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  REDIS_PORT
+            - name: MAIL_MAILER
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  MAIL_MAILER
+            - name: MAIL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  MAIL_HOST
+            - name: MAIL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  MAIL_PORT
+            - name: MAIL_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  MAIL_USERNAME
+            - name: MAIL_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  MAIL_PASSWORD
+            - name: MAIL_ENCRYPTION
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  MAIL_ENCRYPTION
+            - name: MAIL_FROM_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  MAIL_FROM_ADDRESS
+            - name: MAIL_FROM_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  MAIL_FROM_NAME
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  AWS_SECRET_ACCESS_KEY
+            - name: AWS_DEFAULT_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  AWS_DEFAULT_REGION
+            - name: AWS_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  AWS_BUCKET
+            - name: AWS_USE_PATH_STYLE_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  AWS_USE_PATH_STYLE_ENDPOINT
+            - name: PUSHER_APP_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  PUSHER_APP_ID
+            - name: PUSHER_APP_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  PUSHER_APP_KEY
+            - name: PUSHER_APP_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  PUSHER_APP_SECRET
+            - name: PUSHER_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  PUSHER_HOST
+            - name: PUSHER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  PUSHER_PORT
+            - name: PUSHER_SCHEME
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  PUSHER_SCHEME
+            - name: PUSHER_APP_CLUSTER
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  PUSHER_APP_CLUSTER
+            - name: VITE_PUSHER_APP_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  PUSHER_APP_KEY
+            - name: VITE_PUSHER_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  PUSHER_HOST
+            - name: VITE_PUSHER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  PUSHER_PORT
+            - name: VITE_PUSHER_SCHEME
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  PUSHER_SCHEME
+            - name: VITE_PUSHER_APP_CLUSTER
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  PUSHER_APP_CLUSTER
+      restartPolicy: Always

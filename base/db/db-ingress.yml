@@ -1,0 +1,27 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: meethour-io
+spec:
+  rules:
+  - host: ${DB_HOST}
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: db
+            port:
+              number: ${DB_PORT_EXTERNAL}
+  - host: ${ADMINIER_HOST}
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: adminer
+            port:
+              number: ${ADMINIER_PORT_EXTERNAL}
