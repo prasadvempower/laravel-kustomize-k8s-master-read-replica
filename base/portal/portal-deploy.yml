@@ -141,28 +141,28 @@ spec:
                   key:  SKIP_PHPMIGRATE
             - name: DB_HOST
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  DB_HOST
             - name: DB_PORT
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  DB_PORT_INTERNAL
             - name: DB_USERNAME
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  DB_USERNAME
             - name: DB_DATABASE
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  DB_DATABASE
             - name: DB_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  DB_PASSWORD
             - name: COMPOSER_ALLOW_SUPERUSER
               valueFrom:

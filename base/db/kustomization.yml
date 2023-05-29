@@ -3,10 +3,10 @@ kind: Kustomization
 resources:
 - db-deploy.yml
 - db-service.yml
-configMapGenerator:
-- name: db-configmap
-  envs:
-  - params.properties
+#configMapGenerator:
+#- name: db-configmap
+#  envs:
+#  - params.properties
 secretGenerator:
 - name: db-secret
   envs:
