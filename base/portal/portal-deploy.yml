@@ -22,11 +22,20 @@ spec:
     spec:
       containers:
         - name: portal
-          image: prasadvempower/nginx-php-fpm-laravel:latest
+          image: prasadvempower/nginx-php-fpm-laravel:v1
           imagePullPolicy: Always
+#          securityContext:
+#            runAsUser: 1000          
           ports:
             - containerPort: 80
             - containerPort: 443
+          #lifecycle:
+          #  postStart:
+          #    exec:
+          #      command:
+          #        - "/bin/bash"
+          #        - "c"
+          #        - "sleep 200 && php artisan migrate"            
           envFrom:
             - configMapRef:
                 name: portal-configmap
@@ -37,23 +46,23 @@ spec:
             limits:
               cpu: 100m
               memory: 100Mi
-#          livenessProbe:
-#            tcpSocket:
-#              port: 80
-#            initialDelaySeconds: 60
-#            timeoutSeconds: 60
-#            successThreshold: 1
-#            failureThreshold: 60
-#            periodSeconds: 80
-#          readinessProbe:
-#            httpGet:
-#              path: /_status/healthz
-#              port: 80
-#            initialDelaySeconds: 60
-#            timeoutSeconds: 30
-#            successThreshold: 1
-#            failureThreshold: 30
-#            periodSeconds: 80
+          livenessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 200
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 200
+            timeoutSeconds: 2
+            successThreshold: 1
+            failureThreshold: 3
+            periodSeconds: 10
           env:
             - name: SSH_KEY
               valueFrom:
@@ -155,6 +164,11 @@ spec:
                 configMapKeyRef:
                   name: portal-configmap
                   key:  DB_PASSWORD
+            - name: COMPOSER_ALLOW_SUPERUSER
+              valueFrom:
+                configMapKeyRef:
+                  name: portal-configmap
+                  key:  COMPOSER_ALLOW_SUPERUSER                  
             - name: APP_NAME
               valueFrom:
                 configMapKeyRef:
