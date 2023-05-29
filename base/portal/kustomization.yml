@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - portal-deploy.yml
 - portal-service.yml
+- portal-hpa.yml
 configMapGenerator:
 - name: portal-configmap
   envs:
