@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: mysql-storage
+  annotations: 
+    storageclass.kubernetes.io/is-default-class: 'false'
+    storageclass.kubernetes.io/reclaim-policy: Retain
+provisioner: microk8s.io/hostpath
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer

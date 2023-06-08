@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-read-replica
+  namespace: meethour
+  labels:
+    name: mysql-read-replica
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-read-replica
+  template:
+    metadata:
+      labels:
+        app: mysql-read-replica
+    spec:
+      containers:
+        - name: mysql-read-replica
+          image: prasadvempower/mysql-slave:2
+          resources:
+            requests:
+              cpu: 500m
+              memory: 200Mi
+            limits:
+              cpu: 5000m
+              memory: 200Mi
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql            
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-read-replica-secret
+                  key: SQL_ROOT_PASSWORD    
+            - name: MYSQL_REPLICATION_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-read-replica-secret
+                  key: MYSQL_REPLICATION_USER      
+            - name: MYSQL_REPLICATION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-read-replica-secret
+                  key: MYSQL_REPLICATION_PASSWORD
+            - name: MYSQL_MASTER_SERVICE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-read-replica-secret
+                  key: DB_MASTER_HOST
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-read-replica-secret
+                  key: DB_DATABASE
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-read-replica-secret
+                  key: DB_USERNAME
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-read-replica-secret
+                  key: DB_PASSWORD
+            - name: SQL_CHARSET
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-read-replica-secret
+                  key: SQL_CHARSET
+      restartPolicy: Always
+      # volumes:
+      # - name: mysql-data
+      #   persistentVolumeClaim:
+      #     claimName: mysql-data-pvc      
+      volumes:
+        - name: mysql-data
+          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: mysql-storage
+        resources:
+          requests:
+            storage: 10Gi      

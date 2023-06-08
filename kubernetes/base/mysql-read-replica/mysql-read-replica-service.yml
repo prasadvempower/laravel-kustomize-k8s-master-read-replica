@@ -1,0 +1,22 @@
+# more mysql-read-replica-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-read-replica-service
+  namespace: meethour
+  labels:
+    app: mysql-read-replica
+spec:
+  type: LoadBalancer
+  selector:
+    app: mysql-read-replica
+  externalTrafficPolicy: Local
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3306
+      targetPort: 3306
+    - name: https
+      protocol: TCP
+      port: 3307
+      targetPort: 3307

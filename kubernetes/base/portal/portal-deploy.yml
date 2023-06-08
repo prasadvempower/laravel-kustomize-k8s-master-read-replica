@@ -9,12 +9,9 @@ spec:
   selector:
     matchLabels:
       app: portal
-  # replicas: 1
-  # strategy:
-  #   rollingUpdate:
-  #     maxSurge: 25%
-  #     maxUnavailable: 25%
-  #   type: RollingUpdate
+  replicas: 1
+  strategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -135,6 +132,11 @@ spec:
                 secretKeyRef:
                   name: portal-secret
                   key:  DB_HOST
+            - name: DB_READ_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: portal-secret
+                  key:  DB_READ_HOST
             - name: DB_PORT
               valueFrom:
                 secretKeyRef:
@@ -162,28 +164,28 @@ spec:
                   key:  COMPOSER_ALLOW_SUPERUSER                  
             - name: APP_NAME
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  APP_NAME
             - name: APP_ENV
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  APP_ENV
             - name: APP_KEY
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  APP_KEY
             - name: APP_DEBUG
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  APP_DEBUG
             - name: APP_URL
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  APP_URL
             - name: LOG_CHANNEL
               valueFrom:
@@ -247,68 +249,68 @@ spec:
                   key:  REDIS_PORT
             - name: MAIL_MAILER
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  MAIL_MAILER
             - name: MAIL_HOST
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  MAIL_HOST
             - name: MAIL_PORT
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  MAIL_PORT
             - name: MAIL_USERNAME
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  MAIL_USERNAME
             - name: MAIL_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  MAIL_PASSWORD
             - name: MAIL_ENCRYPTION
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  MAIL_ENCRYPTION
             - name: MAIL_FROM_ADDRESS
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  MAIL_FROM_ADDRESS
             - name: MAIL_FROM_NAME
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  MAIL_FROM_NAME
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  AWS_ACCESS_KEY_ID
             - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  AWS_SECRET_ACCESS_KEY
             - name: AWS_DEFAULT_REGION
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  AWS_DEFAULT_REGION
             - name: AWS_BUCKET
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  AWS_BUCKET
             - name: AWS_USE_PATH_STYLE_ENDPOINT
               valueFrom:
-                configMapKeyRef:
-                  name: portal-configmap
+                secretKeyRef:
+                  name: portal-secret
                   key:  AWS_USE_PATH_STYLE_ENDPOINT
             - name: PUSHER_APP_ID
               valueFrom:

@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- mysql-read-replica-rc.yml
+- mysql-read-replica-service.yml
+- mysql-read-replica-hpa.yml
+secretGenerator:
+- name: mysql-read-replica-secret
+  envs:
+  - mysql-read-replica-secret.properties

@@ -11,4 +11,4 @@ configMapGenerator:
 secretGenerator:
 - name: portal-secret
   envs:
-  - params-secret.txt
+  - params-secret.properties
